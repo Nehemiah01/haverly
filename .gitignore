@@ -12,8 +12,8 @@ dist
 dist-ssr
 *.local
 
-#tailwind
-style.scss
+# tailwind
+# style.scss
 
 # Editor directories and files
 .vscode
