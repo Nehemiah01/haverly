@@ -78,10 +78,6 @@ const router = createRouter({
 })
 
 
-onAuthStateChanged(auth, (user) => {
-  console.log(user)
-})
-
 const getCurrentUser = () =>
   new Promise((resolve, reject) => {
     const removeListener = onAuthStateChanged(

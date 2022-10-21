@@ -1,14 +1,14 @@
 <template>
     
-    <form class="flex flex-col place-items-center justify-center bg-gray-400">
+    <form class="flex flex-col place-items-center justify-center">
 
-        <div class="flex flex-col justify-between rounded-xl bg-white  w-1/2 py-5 px-10">
+        <div class="flex flex-col justify-between rounded-xl text-gray-200  w-1/2 py-5 px-10">
 
-            <p class="text-xl font-semibold text-center ">Sign up</p>
+            <p class="text-xl font-medium text-center ">Sign up</p>
             <p class="mt-2 mb-3 text-sm">Sign up to start enjoying Haverly!</p>
 
             <input 
-                class="py-1 px-3 rounded mb-5 border border-gray-400 outline-none"
+                class="py-1 px-3 rounded mb-4 outline-none text-black"
                 type="text"
                 placeholder="Name"
                 aria-describedby="emailHelp"
@@ -17,7 +17,7 @@
             >
 
             <input 
-                class="py-1 px-3 rounded mb-5 border border-gray-400 outline-none"
+                class="py-1 px-3 rounded mb-4  outline-none text-black"
                 type="email" 
                 placeholder="Email address"
                 aria-describedby="emailHelp"
@@ -28,7 +28,7 @@
             <!-- <div id="emailHelp" class="text-sm">We'll never share your email with anyone.</div> -->
                 
             <input 
-                class="py-1 px-3 rounded mb-5 border border-gray-400 outline-none"
+                class="py-1 px-3 rounded mb-6 outline-none text-black"
                 type="password" 
                 placeholder="Password"
                 id="exampleInputPassword1" 
@@ -37,28 +37,28 @@
             >
 
             
-            <div class="text-sm text-red-800 mb-2" v-if="errMsg" role="alert">
+            <div class="text-sm text-red-500 mb-2" v-if="errMsg" role="alert">
                 {{errMsg}}
             </div>
             
             <button 
-                class="font-medium py-2 px-4 bg-blue-500 text-white rounded"
+                class="font-medium py-2 px-4 text-white rounded"
                 type="button" 
                 :disabled="isLoading"
                 @click="register">Submit
             </button>
 
-            <p class="my-3 text-center text-sm font-medium">or Sign up with Google</p>
+            <p class="my-3 text-center text-sm">or Sign up with Google</p>
             
             <button
-                class="flex justify-center py-2 px-4 bg-gray-300 rounded"
+                class="flex justify-center py-2 px-4 rounded"
                 type="button"
                 @click="loginGoogle"
             >
                 <img src="@/assets/google-icon.png" alt="google icon" class="google-icon">
             </button>
 
-            <p class="my-3 text-sm text-center">Already a Haver?    
+            <p class="my-3 font-light text-sm text-center">Already a Haver?    
                 <router-link to="/login" class="text-blue-500">Login here</router-link>
             </p>
             
@@ -104,7 +104,7 @@ const register = async () => {
                 if (user) {
                     updateProfile(auth.currentUser, {
                         displayName: name.value,
-                        photoURL: ''
+                        photoURL: 'https://joeschmoe.io/api/v1/male/random'
                     })
                     sendEmailVerification(auth.currentUser)
 
@@ -159,6 +159,13 @@ const loginGoogle = async () => {
 </script>
 
 <style lang="scss" scoped>
+    ::placeholder {
+        color: #6b6b6b;
+    }
+
+    button {
+        background-color: rgb(45, 45, 45);
+    }
     
     .google-icon {
         width: 1.3rem;
@@ -175,6 +182,20 @@ const loginGoogle = async () => {
             width: 50%;
         }
     }
+
+    form {
+        height: 100vh;
+        width: 100vw;
+        background-color: rgb(22, 22, 22);
+        
+        & > div {
+        background-color: rgb(30, 30, 30);
+        padding-left: 2.5rem;
+        padding-right: 2.5rem;
+        width: 50%;
+        }
+    }
+
 
     @media screen and (max-width:768px) {
         form > div {

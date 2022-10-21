@@ -2,26 +2,26 @@
 
     <form class="flex flex-col place-items-center justify-center bg-gray-400">
 
-        <div class="flex flex-col justify-between rounded-xl bg-white  w-1/2 py-5 px-10">
+        <div class="flex flex-col justify-between rounded-xl text-gray-200  w-1/2 py-5 px-10">
 
             <h5 class="text-xl font-semibold text-center">Reset password</h5>
             <p class="mt-2 mb-3 text-sm">Please enter your email address if you want to reset your password</p>
 
             
             <input 
-                class="py-1 px-3 rounded mb-5 border border-gray-400 outline-none"
+                class="py-1 px-3 rounded mb-5 outline-none text-black"
                 type="email" 
                 placeholder="Email address"
                 aria-describedby="emailHelp"
                 v-model="email"
             >
 
-            <div class="text-sm text-red-800 mb-2" v-if="errMsg" role="alert">
+            <div class="text-sm text-red-500 mb-2" v-if="errMsg" role="alert">
                 {{errMsg}}
             </div>
             
             <button 
-                class="font-medium py-2 px-4 bg-blue-500 text-white rounded"
+                class="font-medium py-2 px-4 text-white rounded"
                 type="submit" 
                 :disabled="isLoading"
                 @click="login">Reset Password</button>
@@ -71,18 +71,28 @@
 </script>
 
 <style lang="scss" scoped>
+    ::placeholder {
+        color: #6b6b6b;
+    }
+
+    button {
+        background-color: rgb(45, 45, 45);
+    }
     
     form {
         height: 100vh;
         width: 100vw;
+        background-color: rgb(22, 22, 22);
         
         & > div {
-            // min-width: 300px;
-            padding-left: 2.5rem;
-            padding-right: 2.5rem;
-            width: 50%;
+        background-color: rgb(30, 30, 30);
+        min-width: 300px;
+        padding-left: 2.5rem;
+        padding-right: 2.5rem;
+        width: 50%;
         }
     }
+
 
     @media screen and (max-width:768px) {
         form > div {

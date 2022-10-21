@@ -2,7 +2,7 @@
 
     <form class="flex flex-col place-items-center justify-center bg-gray-400">
 
-        <div class="flex flex-col justify-between rounded-xl bg-white  w-1/2 py-5 px-10 text-center font-medium">
+        <div class="flex flex-col justify-between rounded-xl text-gray-200  w-1/2 py-5 px-10 text-center font-medium">
 
     
             <h5 class="card-title">Your email needs to be verified</h5>
@@ -18,8 +18,8 @@
             </p>
             
             <button 
-                class="font-medium py-2 px-4 rounded border "
-                :class="compCounter == 0 ? 'bg-blue-500 text-white' : 'text-gray-400 cursor-not-allowed'"
+                class="font-medium py-2 px-4 rounded"
+                :class="compCounter == 0 ? 'bg-blue-500 text-white' : 'text-gray-400 border border-gray-400 cursor-not-allowed'"
                 :disabled="isReady" 
                 type="button" 
                 @click="resend">Resend Verification {{compCounter}}
@@ -103,18 +103,27 @@
 </script>
 
 <style lang="scss" scoped>
+    // ::placeholder {
+    //     color: #6b6b6b;
+    // }
+
+    // button {
+    //     background-color: rgb(45, 45, 45);
+    // }
     
     form {
         height: 100vh;
         width: 100vw;
+        background-color: rgb(22, 22, 22);
         
         & > div {
-            // min-width: 300px;
-            padding-left: 2.5rem;
-            padding-right: 2.5rem;
-            width: 50%;
+        background-color: rgb(30, 30, 30);
+        padding-left: 2.5rem;
+        padding-right: 2.5rem;
+        width: 50%;
         }
     }
+
 
     @media screen and (max-width:768px) {
         form > div {

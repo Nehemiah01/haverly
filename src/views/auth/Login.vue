@@ -1,13 +1,13 @@
 <template>
   
-  <form class="flex flex-col place-items-center justify-center bg-gray-400">
+  <form class="flex flex-col place-items-center justify-center 400">
     
-    <div class="flex flex-col justify-between rounded-xl bg-white py-5">
-      <p class="text-xl font-semibold text-center">Welcome back!</p>
+    <div class="flex flex-col justify-between rounded-xl text-gray-200 py-5">
+      <p class="text-xl font-medium text-center">Welcome back!</p>
       <p class="mt-2 mb-3 text-sm">Sign in to continue enjoying Haverly!</p>
       
       <input
-        class="py-1 px-3 rounded mb-5 border border-gray-400 outline-none"
+        class="py-1 px-3 rounded mb-4 border 400 outline-none text-black"
         type="email"
         placeholder="Email address"
         aria-describedby="emailHelp"
@@ -15,7 +15,7 @@
       />
       
       <input
-        class="py-1 px-3 rounded mb-1 border border-gray-400 outline-none"
+        class="py-1 px-3 rounded mb-1 border 400 outline-none text-black"
         type="password"
         placeholder="Password"
         id="exampleInputPassword1"
@@ -23,12 +23,12 @@
       />
       <router-link to="/password-reset" class="mb-5 text-sm font-medium text-blue-500">Forgot password?</router-link>
 
-      <p class="text-sm text-red-800 mb-2" v-if="errMsg" role="alert">
+      <p class="text-sm text-red-500 mb-2" v-if="errMsg" role="alert">
         {{ errMsg }}
       </p>
 
       <button
-        class="font-medium py-2 px-4 bg-blue-500 text-white rounded"
+        class="font-medium py-2 px-4 text-white rounded"
         type="submit"
         :disabled="isLoading"
         @click="login"
@@ -36,12 +36,12 @@
         Login
       </button>
 
-      <hr>
+      <!-- <hr class="mt-5"> -->
 
       <p class="my-3 text-center text-sm font-medium">or Sign in with Google</p>
       
       <button
-        class="flex justify-center py-2 px-4 rounded bg-gray-300 border"
+        class="flex justify-center py-2 px-4 rounded"
         type="button"
         @click="loginGoogle"
       >
@@ -93,7 +93,6 @@ const login = async () => {
   await signInWithEmailAndPassword(auth, email.value, password.value)
     .then((user) => {
       isLoading.value = false;
-      console.log(user)
       router.push("/");
     })
     .catch((error) => {
@@ -159,6 +158,14 @@ const loginGoogle = async () => {
 </script>
 
 <style lang="scss" scoped>
+  ::placeholder {
+      color: #6b6b6b;
+  }
+
+  button {
+    background-color: rgb(45, 45, 45);
+
+  }
 
   .google-icon {
     width: 1.3rem;
@@ -167,14 +174,19 @@ const loginGoogle = async () => {
   form {
     height: 100vh;
     width: 100vw;
+    background-color: rgb(22, 22, 22);
     
     & > div {
-      // min-width: 300px;
+      background-color: rgb(30, 30, 30);
       padding-left: 2.5rem;
       padding-right: 2.5rem;
       width: 50%;
     }
   }
+
+  /* button {
+    border-bottom-color: #000;
+  } */
 
   @media screen and (max-width:768px) {
     form > div {

@@ -32,8 +32,6 @@ import Friends from './components/Friends.vue';
 import Calls from './components/Calls.vue';
 import Chat from './components/Chat.vue';
 import MessageBox from './components/MessageBox.vue';
-import NewChat from './components/NewChat.vue';
-import Test from './components/Test.vue';
 
 import ChatContainer from './ChatContainer.vue'
 
@@ -56,8 +54,6 @@ export default {
     Calls,
     Chat,
     MessageBox,
-    NewChat,
-    Test,
 
     ChatContainer
 }

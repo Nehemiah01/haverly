@@ -2,7 +2,7 @@
 
 	<div>
 		<div
-			class="app-container"
+			class="app-container app-mobile"
 			:class="{ 'app-mobile': isDevice, 'app-mobile-dark': theme === 'dark' }"
 		>
 			<!-- <div>
@@ -23,39 +23,40 @@
 				>
 				
 			</span> -->
-			<header class="flex justify-between mb-4">
+			<header class="flex justify-between place-items-center py-2 px-4" :class="theme !== 'light' ? 'text-white': 'app-mobile-dark' ">
 				<span
 					v-if="showOptions"
 					class="user-logged flex items-center gap-2 m-0 font-semibold text-sm"
-					:class="theme !== 'light' ? 'text-white': '' "
+					
 					>
 					<!-- :class="{ 'user-logged-dark': theme === 'dark' }" -->
-					<img :src="yuseravatar" class="w-12 h-12 inline-block  rounded-full profile-avatar">
+					<img :src="yusers.photoURL" class="w-12 h-12 inline-block  rounded-full profile-avatar">
 					{{ yusers.displayName }}
-					<!-- <img class="w-10 h-10" :src="yusers.avatar" alt=""> -->
 				</span>
 				<!-- <select v-if="showOptions" v-model="currentUserId" class="text-xs">
 					<option v-for="user in users" :key="user._id" :value="user._id">
 						{{ user.username }}
 					</option>
 				</select> -->
+
+				<!-- <button class="button-light" @click="theme = 'light'">
+					Light
+				</button>
+				<button class="button-dark" @click="theme = 'dark'">
+					Dark
+				</button> -->
 				<div v-if="showOptions" class="button-theme">
-					<button class="button-light" @click="theme = 'light'">
-						Light
-					</button>
-					<button class="button-dark" @click="theme = 'dark'">
-						Dark
-					</button>
-					<button @click="logout" class="button-light">
+					<button @click="logout" class="button-light mr-3">
 						Sign out
 					</button>
+
+					<img v-show="theme == 'light'" @click="theme = 'dark', resetData" src="@/assets/icon-moon.svg" class="cursor-pointer" alt="" >
+					<img v-show="theme == 'dark'" @click="theme = 'light' " src="@/assets/icon-sun.svg" class="cursor-pointer" alt="">
 				</div>
+
 			</header>
 
-			<!-- class="chat-container" -->
 			
-			<!-- :styles="'.vac-message-wrapper .vac-message-current = red !important'" -->
-
 			<chat-container
 				class="w-full bg-red"
 				v-if="showChat"
@@ -91,7 +92,6 @@ export default {
 			theme: 'light',
 			showChat: true,
 			yusers: auth.currentUser,
-			yuseravatar: "https://joeschmoe.io/api/v1/male/random",
 			users: [
 				{
 					_id: '6R0MijpK6M4AIrwaaCY2',
@@ -132,7 +132,12 @@ export default {
 	},
 
 	mounted() {
-		// console.log(this.yusers.uid)
+		console.log(this.yusers)
+		// addToGroups()
+		// let totess = async firestoreService.getAllUsers() ( user => await user)
+
+		console.log(firestoreService.getAllUsers().then(user =>  user))
+		// console.log(auth.listUsers(100, nextPageToken))
 		
 		this.isDevice = window.innerWidth < 500
 		window.addEventListener('resize', ev => {
@@ -141,6 +146,12 @@ export default {
 	},
 
 	methods: {
+		addToGroups() {
+			if(this.yusers.emailVerified) {
+				console.log('Add to groups 0y57gCj4VEeAJ6YbrIOO')
+			}
+		},
+		
 		resetData() {
 			firestoreService.getAllRooms().then(({ data }) => {
 				data.forEach(async room => {
@@ -238,7 +249,7 @@ input {
 
 .app-container {
 	font-family: 'Quicksand', sans-serif;
-	padding: 20px 30px 30px;
+	// padding: 20px 30px 30px;
 }
 
 .app-mobile {
@@ -248,31 +259,15 @@ input {
 		background: #131415;
 	}
 
-	.user-logged {
-		margin: 10px 5px 0 10px;
-	}
-
 	select {
 		margin: 10px 0;
-	}
-
-	.button-theme {
-		margin: 10px 10px 0 0;
-
-		.button-github {
-			height: 23px;
-
-			img {
-				height: 23px;
-			}
-		}
 	}
 }
 
 .user-logged {
 	font-size: 12px;
-	margin-right: 5px;
-	margin-top: 10px;
+	// margin-right: 5px;
+	// margin-top: 10px;
 
 	&.user-logged-dark {
 		color: #fff;
@@ -289,7 +284,6 @@ select {
 }
 
 .button-theme {
-	float: right;
 	display: flex;
 	align-items: center;
 
@@ -316,17 +310,6 @@ select {
 		transition: 0.3s;
 		vertical-align: middle;
 
-		&.button-github {
-			height: 30px;
-			background: none;
-			padding: 0;
-			margin-left: 20px;
-
-			img {
-				height: 30px;
-			}
-		}
-
 		&:hover {
 			opacity: 0.8;
 		}
@@ -349,12 +332,27 @@ select {
 	color: grey;
 }
 
-// .chat-container {
-// 	margin: 0;
-// }
+.hamburger-menu {
+    cursor: pointer;
 
-.vac-message-wrapper .vac-message-current {
-    background-color: blue !important;
+    .bar {
+        display: block;
+        width: 25px;
+        height: 3px;
+        border-radius: 5rem;
+        margin: 4px 0.2rem;
+        transition: transform 0.3s ease-out;
+    }
+
+    &.cancel .bar:first-of-type {
+        transform: translateY(7px) rotate(45deg);
+    }
+    &.cancel .bar:nth-of-type(2) {
+        opacity: 0;
+    }
+    &.cancel .bar:last-child {
+        transform: translateY(-7px) rotate(-45deg);
+    }
+
 }
-
 </style>

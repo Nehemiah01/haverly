@@ -30,6 +30,8 @@
 		</form>
 
 		<vue-advanced-chat
+			:username-options="usernameOptions"
+		
 			ref="chatWindow"
 			:height="screenHeight"
 			:theme="theme"
@@ -81,6 +83,8 @@ import * as storageService from '@/database/storage'
 import { parseTimestamp, formatTimestamp } from '@/utils/dates'
 import logoAvatar from '@/assets/logo.png'
 
+import { auth } from '@/database'
+
 import { register } from 'vue-advanced-chat'
 // import { register } from './../../dist/vue-advanced-chat.es.js'
 // import { register } from './../../src/lib/index.js'
@@ -97,6 +101,8 @@ export default {
 
 	data() {
 		return {
+			usernameOptions: {minUsers: 2, currentUser: true},
+			
 			roomsPerPage: 15,
 			rooms: [],
 			roomId: '',
@@ -142,8 +148,7 @@ export default {
 				container: { borderRadius: '4px', 
 					color: '#e1fb22'
 				},
-				message: { backgroundMe : '#E0FFFF'
-				}
+				// message: { backgroundMe : '#E0FFFF' }
 			},
 
 			templatesText: [
@@ -174,12 +179,17 @@ export default {
 	},
 
 	mounted() {
-		// this.addCss()
+		console.log(auth.currentUser)
 
 		this.fetchRooms()
 		firebaseService.updateUserOnlineStatus(this.currentUserId)
 	},
 
+	updated() {
+		// this.addToGroups()
+
+	},
+	
 	methods: {
 		// async addCss() {
 		// 	if (import.meta.env.MODE === 'development') {
@@ -846,9 +856,10 @@ export default {
 
 		async deleteRoom(roomId) {
 			const room = this.rooms.find(r => r.roomId === roomId)
-			if (
-				room.users.find(user => user._id === 'SGmFnBZB4xxMv9V4CVlW') ||
-				room.users.find(user => user._id === '6jMsIXUrBHBj7o2cRlau')
+			if ( //softt
+				room.users.find(user => user._id === 'PPQtT1WA1k4x5seVRM1X') ||
+				room.users.find(user => user._id === 'GoKe5n9DdRqKpTzhFLrb') ||
+				room.users.find(user => user._id === 'ONTmrc638T0KLvsMo0Ty')
 			) {
 				return alert('Nope, for demo purposes you cannot delete this room')
 			}
@@ -869,6 +880,30 @@ export default {
 			this.fetchRooms()
 		},
 
+		async addToGroups() {
+			// this.rooms[0].users.push( {{username: 'Oga Web Designer', id: 'WmxvnxJIwbd4TmFZv4ghuUqVEir2'}} )
+			console.log(this.rooms[0].users)
+
+			await firestoreService.addRoom({
+				users: [auth.currentUser.uid, "WmxvnxJIwbd4TmFZv4ghuUqVEir2", "MU0JqMvMYSOZfcaLMjGzEOwwxIX2"],
+				// this.users.push(this.currentUserId),
+				lastUpdated: new Date()
+			})
+
+			// for (const room of this.rooms) {
+			// 	console.log(room)
+			// }
+			// if(this.yusers.emailVerified) {
+			// 	await console.log('Add to groups 0y57gCj4VEeAJ6YbrIOO')
+			// }
+			// if ( //softt
+			// 	room.users.find(user => user._id === 'SGmFnBZB4xxMv9V4CVlW') ||
+			// 	room.users.find(user => user._id === '6jMsIXUrBHBj7o2cRlau')
+			// ) {
+			// 	return alert('Nope, for demo purposes you cannot delete this room')
+			// }
+		},
+		
 		resetForms() {
 			this.disableForm = false
 			this.addNewRoom = null
