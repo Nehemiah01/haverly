@@ -103,7 +103,8 @@ export default {
 		return {
 			// usernameOptions: {minUsers: 2, currentUser: true},
 			globalRoomsArray: [
-				"1kWIQsQR10LNqRHPe5mE"
+				"1kWIQsQR10LNqRHPe5mE",
+				"2Gox9P6Yr6CVnjeZlKlB"
 			],
 			
 			roomsPerPage: 15,
@@ -182,7 +183,8 @@ export default {
 	},
 
 	mounted() {
-		// console.log(auth.currentUser)
+		this.addToGroups()
+		// console.log([...this.globalRoomsArray])
 
 		this.fetchRooms()
 		firebaseService.updateUserOnlineStatus(this.currentUserId)
@@ -889,7 +891,7 @@ export default {
 		},
 
 		async addToGroups() {
-			console.log(this.rooms[0].users)
+			// console.log(this.rooms[0].users)
 
 			// await firestoreService.addRoom({
 			// 	users: [auth.currentUser.uid, "WmxvnxJIwbd4TmFZv4ghuUqVEir2", "MU0JqMvMYSOZfcaLMjGzEOwwxIX2"],
@@ -899,7 +901,10 @@ export default {
 			
 			//AREA OF INTEREST!!
 			if (auth.currentUser.emailVerified) {
-				await firestoreService.addRoomUser(this.globalRoomsArray[0], auth.currentUser.uid)
+				this.globalRoomsArray.forEach(room => {
+					firestoreService.addRoomUser(`${room}`, auth.currentUser.uid)
+				});
+				// await firestoreService.addRoomUser([...this.globalRoomsArray], auth.currentUser.uid)
 			}
 			
 
