@@ -101,7 +101,10 @@ export default {
 
 	data() {
 		return {
-			usernameOptions: {minUsers: 2, currentUser: true},
+			// usernameOptions: {minUsers: 2, currentUser: true},
+			globalRoomsArray: [
+				"1kWIQsQR10LNqRHPe5mE"
+			],
 			
 			roomsPerPage: 15,
 			rooms: [],
@@ -179,14 +182,14 @@ export default {
 	},
 
 	mounted() {
-		console.log(auth.currentUser)
+		// console.log(auth.currentUser)
 
 		this.fetchRooms()
 		firebaseService.updateUserOnlineStatus(this.currentUserId)
 	},
 
 	updated() {
-		// this.addToGroups()
+		this.addToGroups()
 
 	},
 	
@@ -864,6 +867,11 @@ export default {
 				return alert('Nope, for demo purposes you cannot delete this room')
 			}
 
+			//AREA OF INTEREST!!
+			if (this.globalRoomsArray.includes(roomId)) {
+				return alert('Nope, sorry, you cannot delete this room. This is a global room😗')
+			}
+
 			firestoreService.getMessages(roomId).then(({ data }) => {
 				data.forEach(message => {
 					firestoreService.deleteMessage(roomId, message.id)
@@ -881,14 +889,19 @@ export default {
 		},
 
 		async addToGroups() {
-			// this.rooms[0].users.push( {{username: 'Oga Web Designer', id: 'WmxvnxJIwbd4TmFZv4ghuUqVEir2'}} )
 			console.log(this.rooms[0].users)
 
-			await firestoreService.addRoom({
-				users: [auth.currentUser.uid, "WmxvnxJIwbd4TmFZv4ghuUqVEir2", "MU0JqMvMYSOZfcaLMjGzEOwwxIX2"],
-				// this.users.push(this.currentUserId),
-				lastUpdated: new Date()
-			})
+			// await firestoreService.addRoom({
+			// 	users: [auth.currentUser.uid, "WmxvnxJIwbd4TmFZv4ghuUqVEir2", "MU0JqMvMYSOZfcaLMjGzEOwwxIX2"],
+			// 	// this.users.push(this.currentUserId),
+			// 	lastUpdated: new Date()
+			// })
+			
+			//AREA OF INTEREST!!
+			if (auth.currentUser.emailVerified) {
+				await firestoreService.addRoomUser(this.globalRoomsArray[0], auth.currentUser.uid)
+			}
+			
 
 			// for (const room of this.rooms) {
 			// 	console.log(room)
