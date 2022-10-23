@@ -189,7 +189,7 @@ export default {
 	},
 
 	updated() {
-		this.addToGroups()
+		// this.addToGroups()
 
 	},
 	
