@@ -1,6 +1,6 @@
 <template>
 	<div class="window-container" :class="{ 'window-mobile': isDevice }">
-		<form v-if="addNewRoom" @submit.prevent="createRoom">
+		<form class="px-4" v-if="addNewRoom" @submit.prevent="createRoom">
 			<input v-model="addRoomUsername" type="text" placeholder="Add username" />
 			<button type="submit" :disabled="disableForm || !addRoomUsername">
 				Create Room
@@ -8,7 +8,7 @@
 			<button class="button-cancel" @click="addNewRoom = false">Cancel</button>
 		</form>
 
-		<form v-if="inviteRoomId" @submit.prevent="addRoomUser">
+		<form class="px-4" v-if="inviteRoomId" @submit.prevent="addRoomUser">
 			<input v-model="invitedUsername" type="text" placeholder="Add username" />
 			<button type="submit" :disabled="disableForm || !invitedUsername">
 				Add User
@@ -16,7 +16,7 @@
 			<button class="button-cancel" @click="inviteRoomId = null">Cancel</button>
 		</form>
 
-		<form v-if="removeRoomId" @submit.prevent="deleteRoomUser">
+		<form class="px-4" v-if="removeRoomId" @submit.prevent="deleteRoomUser">
 			<select v-model="removeUserId">
 				<option default value="">Select User</option>
 				<option v-for="user in removeUsers" :key="user._id" :value="user._id">
@@ -104,7 +104,8 @@ export default {
 			// usernameOptions: {minUsers: 2, currentUser: true},
 			globalRoomsArray: [
 				"1kWIQsQR10LNqRHPe5mE",
-				"2Gox9P6Yr6CVnjeZlKlB"
+				"2Gox9P6Yr6CVnjeZlKlB",
+				"H3FZaNU3o9BJlZji7rfE"
 			],
 			
 			roomsPerPage: 15,
@@ -184,7 +185,6 @@ export default {
 
 	mounted() {
 		this.addToGroups()
-		// console.log([...this.globalRoomsArray])
 
 		this.fetchRooms()
 		firebaseService.updateUserOnlineStatus(this.currentUserId)
@@ -379,7 +379,7 @@ export default {
 					),
 					username: username,
 					distributed: true,
-					seen: message.sender_id === this.currentUserId ? message.seen : null,
+					seen: message.sender_id === this.currentUserId ?  message.seen : null,
 					new:
 						message.sender_id !== this.currentUserId &&
 						(!message.seen || !message.seen[this.currentUserId]),
@@ -890,6 +890,8 @@ export default {
 			this.fetchRooms()
 		},
 
+		// async
+
 		async addToGroups() {
 			// console.log(this.rooms[0].users)
 
@@ -900,11 +902,16 @@ export default {
 			// })
 			
 			//AREA OF INTEREST!!
+			
 			if (auth.currentUser.emailVerified) {
+
+				// const { id } = await firestoreService.addUser({
+				// 	username: this.addRoomUsername
+				// })
+
 				this.globalRoomsArray.forEach(room => {
 					firestoreService.addRoomUser(`${room}`, auth.currentUser.uid)
 				});
-				// await firestoreService.addRoomUser([...this.globalRoomsArray], auth.currentUser.uid)
 			}
 			
 
