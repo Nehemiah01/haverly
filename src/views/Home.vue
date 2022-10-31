@@ -111,7 +111,7 @@ export default {
 				}
 			],
 			ycurrentUserId: auth.currentUser.uid,
-			currentUserId: '6R0MijpK6M4AIrwaaCY2',
+			currentUserId: auth.currentUser.uid,
 			isDevice: false,
 			showDemoOptions: true,
 			updatingData: false

@@ -101,7 +101,8 @@ export default {
 
 	data() {
 		return {
-			// usernameOptions: {minUsers: 2, currentUser: true},
+			usernameOptions: {minUsers: 3, currentUser: false},
+
 			globalRoomsArray: [
 				"1kWIQsQR10LNqRHPe5mE",
 				"2Gox9P6Yr6CVnjeZlKlB",
@@ -120,7 +121,11 @@ export default {
 			roomsLoadedCount: false,
 			selectedRoom: null,
 			messagesPerPage: 20,
-			messages: [],
+			messages: [
+				{
+					username: "tHe EpiHaNY"
+				}
+			],
 			messagesLoaded: false,
 			roomMessage: '',
 			lastLoadedMessage: null,
@@ -153,7 +158,11 @@ export default {
 				container: { borderRadius: '4px', 
 					color: '#e1fb22'
 				},
-				// message: { backgroundMe : '#E0FFFF' }
+				message: { backgroundMe : '#80aaff' },
+
+				dark : {
+					message: { backgroundMe: '#000'}
+				}
 			},
 
 			templatesText: [
@@ -357,6 +366,7 @@ export default {
 			if (!message.timestamp) return
 
 			let content = message.content
+			
 			if (message.files?.length) {
 				const file = message.files[0]
 				content = `${file.name}.${file.extension || file.type}`
@@ -364,8 +374,8 @@ export default {
 
 			const username =
 				message.sender_id !== this.currentUserId
-					? room.users.find(user => message.sender_id === user._id)?.username
-					: ''
+					? room.users.find(user => message.sender_id === user.uid)?.displayName
+					: 'TheCoolOne'
 
 			return {
 				...message,
@@ -377,7 +387,7 @@ export default {
 						new Date(message.timestamp.seconds * 1000),
 						message.timestamp
 					),
-					username: username,
+					username: username, //THIS IS A MAJOR PLACE OF INTEREST
 					distributed: true,
 					seen: message.sender_id === this.currentUserId ?  message.seen : null,
 					new:
@@ -472,16 +482,21 @@ export default {
 		},
 
 		formatMessage(room, message) {
+			
 			const formattedMessage = {
 				...message,
-				...{
-					senderId: message.sender_id,
+				
+				...{ 
+					senderId: message.sender_id, 
 					_id: message.id,
 					seconds: message.timestamp.seconds,
 					timestamp: parseTimestamp(message.timestamp, 'HH:mm'),
 					date: parseTimestamp(message.timestamp, 'DD MMMM YYYY'),
-					username: room.users.find(user => message.sender_id === user._id)
-						?.username,
+					// username: room.users.find(user => message.sender_id === user._id)
+					// 	?.username, //displayName
+						
+					username: "AllUsernames", //HARDCODED USERNAME
+					
 					// avatar: senderUser ? senderUser.avatar : null,
 					distributed: true,
 					lastMessage: { ...message.lastMessage, senderId: message.sender_id }

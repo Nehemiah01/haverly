@@ -21,7 +21,7 @@
             </div>
             
             <button 
-                class="font-medium py-2 px-4 text-white rounded"
+                class="font-medium py-2 px-4 text-white bg-blue-500 rounded"
                 type="submit" 
                 :disabled="isLoading"
                 @click="login">Reset Password</button>
@@ -75,9 +75,9 @@
         color: #6b6b6b;
     }
 
-    button {
-        background-color: rgb(45, 45, 45);
-    }
+    // button {
+    //     background-color: rgb(45, 45, 45);
+    // }
     
     form {
         height: 100vh;
